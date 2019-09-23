@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ProductCatalog
+namespace Queries
 {
     public class Class1
     {
