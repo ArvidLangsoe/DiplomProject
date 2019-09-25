@@ -38,7 +38,7 @@ namespace Commands.AddProducts
                 _productRepository.AddProduct(newProduct);
             }
             catch (Exception) {
-                //TODO: This could use a smarter implementation
+                //TODO: This could use a smarter implementation, we dont want to catch all exceptions.
                 IsSuccesful = false;
             }
 

@@ -25,6 +25,7 @@ namespace Persistence.Repositories
 
         public void GetEvents(Expression<Func<Event, bool>> condition)
         {
+            //Waiting to implement this until requirements are clear.
             throw new NotImplementedException();
         }
     }
