@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Commands.AddProducts;
+using Commands.DeleteProduct;
 using Commands.UpdateProducts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,9 +21,9 @@ namespace API.Controllers
             addProductCommand.Execute();
 
             if (!addProductCommand.IsSuccesful) {
-                return BadRequest("Something went wrong, you probably sent a wrong product.");
+                return BadRequest(addProductCommand.Errors);
             }
-            return Ok();
+            return NoContent();
         }
 
 
@@ -39,15 +40,32 @@ namespace API.Controllers
         }
 
         [HttpPatch("{productId}")]
-        public IActionResult PatchProduct([FromBody] UpdateProductDTO productChanges, [FromServices] UpdateProductCommand updateProductCommand) {
+        public IActionResult PatchProduct([FromRoute] Guid productId, [FromBody] UpdateProductDTO productChanges, [FromServices] UpdateProductCommand updateProductCommand) {
+            if (productChanges.Id == null)
+            {
+                productChanges.Id = productId;
+            }
             updateProductCommand.ProductUpdate = productChanges;
             updateProductCommand.Execute();
 
             if (!updateProductCommand.IsSuccesful)
             {
-                return BadRequest("Something went wrong, you probably sent a wrong product.");
+                return BadRequest(updateProductCommand.Errors);
             }
-            return Ok();
-        } 
+            return NoContent();
+        }
+
+        [HttpDelete("{productId}")]
+        public IActionResult DeleteProduct([FromRoute] Guid productId, [FromServices] DeleteProductCommand deleteProductCommand) {
+            deleteProductCommand.ProductId = productId;
+            deleteProductCommand.Execute();
+            if (!deleteProductCommand.IsSuccesful)
+            {
+                return BadRequest(deleteProductCommand.Errors);
+            }
+
+            return NoContent();
+
+        }
     }
 }

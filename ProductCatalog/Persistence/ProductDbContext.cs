@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using Domain;
+using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using ProductCatalog;
 using System;
@@ -16,7 +17,7 @@ namespace Persistence
 
         }
 
-
         public DbSet<Product> Products { get; set; }
+        public DbSet<Event> Events { get; set; }
     }
 }

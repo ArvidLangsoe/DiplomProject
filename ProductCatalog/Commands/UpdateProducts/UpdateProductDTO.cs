@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Core.Util.PatchProperty;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Commands.UpdateProducts
@@ -7,11 +9,6 @@ namespace Commands.UpdateProducts
     public class UpdateProductDTO
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
-        public bool? Discontinued { get; set; }
-
+        public List<PropertyUpdate> Updates { get; set; }
     }
 }

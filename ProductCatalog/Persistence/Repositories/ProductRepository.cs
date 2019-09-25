@@ -31,5 +31,11 @@ namespace Persistence.Repositories
         {
             return _dbContext.Products.Where(x => !x.Deleted).ToList();
         }
+
+        public void UpdateProduct(Product currentProduct)
+        {
+            _dbContext.Update(currentProduct);
+            _dbContext.SaveChanges();
+        }
     }
 }

@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using Core.Common;
 using Core.Persistence;
+using Core.Util.PatchProperty;
 using ProductCatalog;
 
 namespace Commands.UpdateProducts
@@ -13,7 +14,8 @@ namespace Commands.UpdateProducts
     {
         private IProductRepository _productRepository;
 
-        public UpdateProductCommand(IProductRepository productRepository) {
+        public UpdateProductCommand(IProductRepository productRepository)
+        {
             _productRepository = productRepository;
         }
 
@@ -27,30 +29,48 @@ namespace Commands.UpdateProducts
         public void Execute()
         {
             Product currentProduct = _productRepository.GetProduct(ProductUpdate.Id);
-            if (currentProduct == null) {
+            if (currentProduct == null)
+            {
                 IsSuccesful = false;
                 return;
             }
-            PatchProduct(currentProduct);
-        }
-
-
-
-        private void PatchProduct(Product currentProduct) {
-
-            PatchProperty(ProductUpdate.Name, currentProduct, x => currentProduct.Name);
-            PatchProperty(ProductUpdate.Description, currentProduct, x => currentProduct.Description);
-            PatchProperty(ProductUpdate.Discontinued, currentProduct, x => currentProduct.Discontinued);
-        }
-
-        private void PatchProperty<T,V>(T input, V target, Expression<Func<V,T>> propertyToChange) {
-            if (input != null) {
-                var expr = (MemberExpression)propertyToChange.Body;
-                var prop = (PropertyInfo)expr.Member;
-
-                prop.SetValue(target, input, null);
+            if (currentProduct.Deleted)
+            {
+                IsSuccesful = false;
+                return;
             }
 
+            foreach (PropertyUpdate propertyUpdate in ProductUpdate.Updates)
+            {
+                PatchProperty(propertyUpdate, currentProduct);
+            }
+
+            if (!IsSuccesful)
+            {
+                return;
+            }
+
+            _productRepository.UpdateProduct(currentProduct);
         }
+
+
+        private void PatchProperty(PropertyUpdate propertyUpdate, Product productToPatch)
+        {
+            try
+            {
+                propertyUpdate.PatchProperty(productToPatch);
+            }
+            catch (ArgumentException e)
+            {
+                IsSuccesful = false;
+
+                Errors.Add(new Error()
+                {
+                    Message = "The given value does not match the expected type for property \"" + propertyUpdate.Property 
+                    + "\". This most likely happened because a string was supplied instead."
+                });
+            }
+        }
+
     }
 }
