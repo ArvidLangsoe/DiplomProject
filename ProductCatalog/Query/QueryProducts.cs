@@ -20,6 +20,8 @@ namespace Queries
         public List<Error> Errors { get; set; } = new List<Error>();
 
         public List<ProductDTO> Query() {
+
+            //Suggestion: Might want to add a Domain object ProductCatalog that can handle paging etc. 
             IEnumerable<Product> products = _productRepository.GetProducts();
             return products.Select(product => ProductDTO.From(product)).ToList();
         }
