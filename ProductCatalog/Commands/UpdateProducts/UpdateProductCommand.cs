@@ -6,6 +6,7 @@ using System.Text;
 using Core.Common;
 using Core.Persistence;
 using Core.Util.PatchProperty;
+using Domain;
 using ProductCatalog;
 
 namespace Commands.UpdateProducts
@@ -13,10 +14,12 @@ namespace Commands.UpdateProducts
     public class UpdateProductCommand : ICommand
     {
         private IProductRepository _productRepository;
+        private IEventRepository _eventRepository;
 
-        public UpdateProductCommand(IProductRepository productRepository)
+        public UpdateProductCommand(IProductRepository productRepository, IEventRepository eventRepository)
         {
             _productRepository = productRepository;
+            _eventRepository = eventRepository;
         }
 
 
@@ -44,13 +47,14 @@ namespace Commands.UpdateProducts
             {
                 PatchProperty(propertyUpdate, currentProduct);
             }
-
             if (!IsSuccesful)
             {
                 return;
             }
-
+            currentProduct.LastUpdate = DateTime.Now;
             _productRepository.UpdateProduct(currentProduct);
+            _eventRepository.AddEvent(currentProduct.ConstructEvent(EventType.Updated));
+
         }
 
 

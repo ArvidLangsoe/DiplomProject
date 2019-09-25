@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -19,5 +20,18 @@ namespace ProductCatalog
 
         public bool Deleted { get; set; }
 
+        public DateTime Creation { get; set; } = DateTime.Now;
+        public DateTime LastUpdate { get; set; } = DateTime.Now;
+
+
+
+        public Event ConstructEvent(EventType eventType) {
+            return new Event()
+            {
+                ObjectId = Id,
+                EventType = eventType,
+                ObjectType = this.GetType().Name,
+            };
+        }
     }
 }

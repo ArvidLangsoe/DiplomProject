@@ -1,6 +1,7 @@
 ﻿using Commands.AddProducts;
 using Core.Common;
 using Core.Persistence;
+using Domain;
 using ProductCatalog;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,11 @@ namespace Commands.AddProducts
     public class AddProductCommand : ICommand
     {
         private IProductRepository _productRepository;
+        private IEventRepository _eventRepository;
 
-        public AddProductCommand(IProductRepository productRepository) {
+        public AddProductCommand(IProductRepository productRepository, IEventRepository eventRepository) {
             _productRepository = productRepository;
+            _eventRepository = eventRepository;
         }
 
         public AddProductDTO ProductDTO { get; set; }
@@ -38,6 +41,8 @@ namespace Commands.AddProducts
                 //TODO: This could use a smarter implementation
                 IsSuccesful = false;
             }
+
+            _eventRepository.AddEvent(newProduct.ConstructEvent(EventType.Added));
 
         }
     }

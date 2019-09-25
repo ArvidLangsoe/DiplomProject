@@ -21,7 +21,7 @@ namespace Queries
 
         public List<ProductDTO> Query() {
 
-            //Suggestion: Might want to add a Domain object ProductCatalog that can handle paging etc. 
+            //Suggestion: Might want to add a Domain object Catalog that can handle paging etc. 
             IEnumerable<Product> products = _productRepository.GetProducts();
             return products.Select(product => ProductDTO.From(product)).ToList();
         }

@@ -37,6 +37,8 @@ namespace API
             services.AddDbContext<ProductDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ProductDb")));
 
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IEventRepository, EventRepository>();
+
             services.AddScoped<AddProductCommand>();
             services.AddScoped<QueryProducts>();
             services.AddScoped<UpdateProductCommand>();

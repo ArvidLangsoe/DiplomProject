@@ -12,6 +12,7 @@ namespace Domain
         public Guid ObjectId { get; set; }
         public string ObjectType { get; set; }
         public EventType EventType { get; set; }
+        public DateTime CreationDate { get; set; } = DateTime.Now;
 
     }
 

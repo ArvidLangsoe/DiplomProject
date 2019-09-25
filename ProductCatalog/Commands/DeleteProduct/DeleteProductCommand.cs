@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.Text;
 using Core.Common;
 using Core.Persistence;
+using Domain;
+using ProductCatalog;
 
 namespace Commands.DeleteProduct
 {
     public class DeleteProductCommand : ICommand
     {
-        IProductRepository _productRepository;
+        private IProductRepository _productRepository;
+        private IEventRepository _eventRepository;
 
-        public DeleteProductCommand(IProductRepository productRepository) {
-            _productRepository = productRepository; 
+        public DeleteProductCommand(IProductRepository productRepository, IEventRepository eventRepository) {
+            _productRepository = productRepository;
+            _eventRepository = eventRepository;
         }
 
         public bool IsSuccesful { get; set; } = true;
@@ -24,7 +28,10 @@ namespace Commands.DeleteProduct
         {
             var product = _productRepository.GetProduct(ProductId);
             product.Deleted = true;
+            product.LastUpdate = DateTime.Now;
             _productRepository.UpdateProduct(product);
+            _eventRepository.AddEvent(product.ConstructEvent(EventType.Deleted));
         }
+
     }
 }
