@@ -1,4 +1,5 @@
 ﻿using Commands.AddProducts;
+using Core.Common;
 using Core.Persistence;
 using ProductCatalog;
 using System;
@@ -11,12 +12,13 @@ namespace Commands.AddProducts
     {
         private IProductRepository _productRepository;
 
-        AddProductCommand(IProductRepository productRepository) {
+        public AddProductCommand(IProductRepository productRepository) {
             _productRepository = productRepository;
         }
 
         public AddProductDTO ProductDTO { get; set; }
-        public bool IsSuccesful { get; set; } = true; 
+        public bool IsSuccesful { get; set; } = true;
+        public List<Error> Errors { get; set; }
 
         public void Execute()
         {

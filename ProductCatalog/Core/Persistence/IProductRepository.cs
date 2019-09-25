@@ -9,5 +9,6 @@ namespace Core.Persistence
     {
 
         void AddProduct(Product product);
+        IEnumerable<Product> GetProducts();
     }
 }

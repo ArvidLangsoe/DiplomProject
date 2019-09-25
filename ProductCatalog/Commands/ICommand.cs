@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Core.Common;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Commands
 {
-    public interface ICommand
+    public interface ICommand : IFailable
     {
-        bool IsSuccesful { get; set; }
         void Execute();
     }
 }

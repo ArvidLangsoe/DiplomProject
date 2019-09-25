@@ -2,6 +2,7 @@
 using ProductCatalog;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Persistence.Repositories
@@ -10,7 +11,7 @@ namespace Persistence.Repositories
     {
         private ProductDbContext _dbContext;
 
-        ProductRepository(ProductDbContext dbContext) {
+        public ProductRepository(ProductDbContext dbContext) {
             _dbContext = dbContext;
         }
 
@@ -18,6 +19,12 @@ namespace Persistence.Repositories
         public void AddProduct(Product product)
         {
             _dbContext.Add(product);
+            _dbContext.SaveChanges();
+        }
+
+        public IEnumerable<Product> GetProducts()
+        {
+            return _dbContext.Products.Where(x => !x.Deleted).ToList();
         }
     }
 }
