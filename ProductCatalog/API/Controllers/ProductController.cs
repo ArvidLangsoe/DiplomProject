@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Commands.AddProducts;
+using Commands.UpdateProducts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Queries;
@@ -36,5 +37,17 @@ namespace API.Controllers
 
             return Ok(products);
         }
+
+        [HttpPatch("{productId}")]
+        public IActionResult PatchProduct([FromBody] UpdateProductDTO productChanges, [FromServices] UpdateProductCommand updateProductCommand) {
+            updateProductCommand.ProductUpdate = productChanges;
+            updateProductCommand.Execute();
+
+            if (!updateProductCommand.IsSuccesful)
+            {
+                return BadRequest("Something went wrong, you probably sent a wrong product.");
+            }
+            return Ok();
+        } 
     }
 }

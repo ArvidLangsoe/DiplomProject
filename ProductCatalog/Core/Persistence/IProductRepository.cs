@@ -10,5 +10,6 @@ namespace Core.Persistence
 
         void AddProduct(Product product);
         IEnumerable<Product> GetProducts();
+        Product GetProduct(Guid id);
     }
 }

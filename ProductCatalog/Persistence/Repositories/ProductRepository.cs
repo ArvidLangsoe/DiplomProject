@@ -22,6 +22,11 @@ namespace Persistence.Repositories
             _dbContext.SaveChanges();
         }
 
+        public Product GetProduct(Guid id)
+        {
+            return _dbContext.Products.FirstOrDefault(x => x.Id == id);
+        }
+
         public IEnumerable<Product> GetProducts()
         {
             return _dbContext.Products.Where(x => !x.Deleted).ToList();
