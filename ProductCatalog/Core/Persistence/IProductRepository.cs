@@ -9,7 +9,7 @@ namespace Core.Persistence
     {
 
         void AddProduct(Product product);
-        IEnumerable<Product> GetProducts();
+        ICatalog<Product> GetCatalog();
         Product GetProduct(Guid id);
         void UpdateProduct(Product currentProduct);
     }

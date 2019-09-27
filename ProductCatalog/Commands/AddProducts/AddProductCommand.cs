@@ -28,7 +28,7 @@ namespace Commands.AddProducts
             Product newProduct = new Product()
             {
                 Id = new Guid(),
-                Name = ProductDTO?.Name,
+                Title = ProductDTO?.Title,
                 Description = ProductDTO?.Description
 
             };

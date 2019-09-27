@@ -5,9 +5,12 @@ using System.Threading.Tasks;
 using Commands.AddProducts;
 using Commands.DeleteProduct;
 using Commands.UpdateProducts;
+using Core.Persistence;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ProductCatalog;
 using Queries;
+using Queries.Products;
 
 namespace API.Controllers
 {
@@ -28,9 +31,14 @@ namespace API.Controllers
 
 
         [HttpGet()]
-        public IActionResult QueryProducts([FromServices] QueryProducts productQuery) {
+        public IActionResult QueryProducts([FromServices] QueryProducts productQuery, [FromQuery] string searchString) {
 
-            List<ProductDTO> products = productQuery.Query();
+            var searchParameters = new SearchParameters()
+            {
+                SearchString = searchString
+            };
+
+            CatalogPage<Product> products = productQuery.Query(searchParameters);
 
             if (!productQuery.IsSuccesful) {
                 return BadRequest("Something went wrong.");

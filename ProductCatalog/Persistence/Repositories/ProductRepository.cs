@@ -22,14 +22,15 @@ namespace Persistence.Repositories
             _dbContext.SaveChanges();
         }
 
+        public ICatalog<Product> GetCatalog()
+        {
+            var query = _dbContext.Products.AsQueryable().Where(x => !x.Deleted).OrderBy(x => x.Title);
+            return new Catalog<Product>(query);
+        }
+
         public Product GetProduct(Guid id)
         {
             return _dbContext.Products.FirstOrDefault(x => x.Id == id);
-        }
-
-        public IEnumerable<Product> GetProducts()
-        {
-            return _dbContext.Products.Where(x => !x.Deleted).ToList();
         }
 
         public void UpdateProduct(Product currentProduct)

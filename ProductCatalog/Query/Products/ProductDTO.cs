@@ -9,7 +9,7 @@ namespace Queries
         [Key]
         public Guid Id { get; set; }
 
-        public string Name { get; set; }
+        public string Title { get; set; }
 
         public string Description { get; set; }
 
@@ -20,7 +20,7 @@ namespace Queries
             return new ProductDTO
             {
                 Id = product.Id,
-                Name = product.Name,
+                Title = product.Title,
                 Description = product.Description,
                 Discontinued = product.Discontinued
             };

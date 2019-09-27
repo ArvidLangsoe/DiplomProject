@@ -1,6 +1,7 @@
 ﻿using Core.Common;
 using Core.Persistence;
 using ProductCatalog;
+using Queries.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,11 +20,14 @@ namespace Queries
         public bool IsSuccesful { get; set; } = true;
         public List<Error> Errors { get; set; } = new List<Error>();
 
-        public List<ProductDTO> Query() {
+        public CatalogPage<Product> Query() {
+            return _productRepository.GetCatalog().GetFront();
 
-            //Suggestion: Might want to add a Domain object Catalog that can handle paging etc. 
-            IEnumerable<Product> products = _productRepository.GetProducts();
-            return products.Select(product => ProductDTO.From(product)).ToList();
+        }
+
+        public CatalogPage<Product> Query(SearchParameters searchParameters)
+        {
+            return _productRepository.GetCatalog().GetFront(searchParameters);
         }
     }
 }
