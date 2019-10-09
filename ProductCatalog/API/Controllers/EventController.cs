@@ -6,6 +6,7 @@ using Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Queries;
+using Queries.Events;
 
 namespace API.Controllers
 {
@@ -16,7 +17,7 @@ namespace API.Controllers
         [HttpGet()]
         public IActionResult QueryEvents([FromQuery] int? eventCounter, [FromQuery] int? amount,[FromServices] QueryEvents queryEvents) {
 
-            IEnumerable<Event> events;
+            IEnumerable<EventDTO> events;
             if (eventCounter != null && amount != null)
             {
                 events = queryEvents.Query((int)eventCounter, (int)amount);

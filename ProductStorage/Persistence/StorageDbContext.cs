@@ -24,6 +24,8 @@ namespace Persistence
         public DbSet<ProductAddition> AdditionEvents { get; set; }
         public DbSet<ProductRemoval> RemovalEvents { get; set; }
 
+        public DbSet<AvailableProduct> AvailableProducts { get; set; }
+
 
     }
 }

@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductStorageAPI", "Produc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "..\Domain\Domain.csproj", "{AB90F569-D0FF-4A4A-8E45-41F01365A2D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{7FBB10F9-7EA4-466B-8EF7-AEE2B7D19DED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{7FBB10F9-7EA4-466B-8EF7-AEE2B7D19DED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "Persistence\Persistence.csproj", "{D9D34F38-CF01-45F8-93D5-9112FBC1E8C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "Persistence\Persistence.csproj", "{D9D34F38-CF01-45F8-93D5-9112FBC1E8C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductCatalogWatcher", "ProductCatalogWatcher\ProductCatalogWatcher.csproj", "{B124D914-734C-48DF-9DF2-077B32A8CFBB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{D9D34F38-CF01-45F8-93D5-9112FBC1E8C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9D34F38-CF01-45F8-93D5-9112FBC1E8C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9D34F38-CF01-45F8-93D5-9112FBC1E8C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B124D914-734C-48DF-9DF2-077B32A8CFBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B124D914-734C-48DF-9DF2-077B32A8CFBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B124D914-734C-48DF-9DF2-077B32A8CFBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B124D914-734C-48DF-9DF2-077B32A8CFBB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
