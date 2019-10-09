@@ -1,7 +1,10 @@
 ﻿using Application.Interfaces.Persistence;
 using Application.Storage.DTO;
+using Application.Storage.DTO.AddBatch;
+using Domain;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Application
@@ -9,24 +12,36 @@ namespace Application
     public class StorageService
     {
         private readonly IProductStorageRepository _storageRepository;
+        private readonly IBatchRepository _batchRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public StorageService(IProductStorageRepository storageRepository, IUnitOfWork unitOfWork) {
+        public StorageService(IProductStorageRepository storageRepository, IBatchRepository batchRepository, IUnitOfWork unitOfWork)
+        {
             _storageRepository = storageRepository;
             _unitOfWork = unitOfWork;
+            _batchRepository = batchRepository;
 
         }
 
-        public ProductAvailabiltyDTO ProductCount(Guid productId) {
+        public ProductAvailabilityDTO ProductCount(Guid productId)
+        {
             var productStorage = _storageRepository.GetProductStorage(productId);
 
-            return new ProductAvailabiltyDTO()
+            return new ProductAvailabilityDTO()
             {
                 ProductId = productId,
                 NumAvailable = productStorage.NumAvailableProduct
             };
         }
 
+
+        public void AddBatch(AddBatchDTO batchDTO)
+        {
+            var batch = batchDTO.ToBatch();
+            _batchRepository.AddBatch(batch);
+            _unitOfWork.CommitChanges();
+
+        }
 
 
     }

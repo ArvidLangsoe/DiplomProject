@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Queries
 {
+    //TODO: Never used.
     public class ProductDTO
     {
         [Key]

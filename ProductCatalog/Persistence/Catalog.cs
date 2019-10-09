@@ -60,6 +60,13 @@ namespace Core.Persistence
             throw new NotImplementedException();
         }
 
+        public CatalogPage<T> GetSpecific(List<Guid> productIds)
+        {
+            var query = _items;
+            query = query.Where(x => productIds.Contains(x.Id));
+
+            return new CatalogPage<T>(query, null);
+        }
 
         private IQueryable<T> FilterBySearchString(IQueryable<T> searchables, string searchString) {
             return searchables.Where(x => x.Match(searchString)>=0).OrderBy(x => x.Match(searchString)); 

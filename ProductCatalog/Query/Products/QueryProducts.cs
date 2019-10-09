@@ -29,5 +29,12 @@ namespace Queries
         {
             return _productRepository.GetCatalog().GetFront(searchParameters);
         }
+
+
+        public CatalogPage<Product> Query(List<Guid> ids)
+        {
+            return _productRepository.GetCatalog().GetSpecific(ids);
+
+        }
     }
 }

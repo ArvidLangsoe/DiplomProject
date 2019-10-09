@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application;
+using Application.Storage.DTO.AddBatch;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,19 +11,20 @@ namespace ProductStorageAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class BatchController : ControllerBase
     {
-
         private StorageService _storageService;
 
-        public ProductController(StorageService storageService) {
+        public BatchController(StorageService storageService)
+        {
             _storageService = storageService;
         }
 
 
-        [HttpGet("{id}")]
-        public IActionResult GetProductAvailability([FromRoute] Guid id) {
-            return Ok(_storageService.ProductCount(id));
+        [HttpPost("")]
+        public IActionResult AddBatch(AddBatchDTO batchDTO) {
+            _storageService.AddBatch(batchDTO);
+            return Ok();
         }
 
     }

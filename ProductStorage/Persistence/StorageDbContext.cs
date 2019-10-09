@@ -19,6 +19,7 @@ namespace Persistence
         }
 
 
+        public DbSet<Batch> Batches { get; set; }
         public DbSet<ProductBatch> ProductBatches { get; set; }
         public DbSet<ProductAddition> AdditionEvents { get; set; }
         public DbSet<ProductRemoval> RemovalEvents { get; set; }

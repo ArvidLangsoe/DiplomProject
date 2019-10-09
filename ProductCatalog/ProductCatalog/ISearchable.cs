@@ -12,6 +12,7 @@ namespace Core.Common.Search
         /// <param name="searchString"></param>
         /// <returns></returns>
         double Match(string searchString);
+        Guid Id { get; set; }
 
     }
 }

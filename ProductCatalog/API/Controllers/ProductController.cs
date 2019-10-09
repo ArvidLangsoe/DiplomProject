@@ -47,6 +47,17 @@ namespace API.Controllers
             return Ok(products);
         }
 
+        [HttpPost("Specific")]
+        public IActionResult QuerySpecificProducts([FromServices] QueryProducts productQuery, [FromBody] List<Guid> ids) {
+            CatalogPage<Product> products = productQuery.Query(ids);
+
+            if (!productQuery.IsSuccesful)
+            {
+                return BadRequest(productQuery.Errors);
+            }
+            return Ok(products);
+        }
+
         [HttpPatch("{productId}")]
         public IActionResult PatchProduct([FromRoute] Guid productId, [FromBody] UpdateProductDTO productChanges, [FromServices] UpdateProductCommand updateProductCommand) {
             if (productChanges.Id == null)

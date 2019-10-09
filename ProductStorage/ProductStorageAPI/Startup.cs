@@ -33,6 +33,7 @@ namespace ProductStorageAPI
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IProductStorageRepository, ProductStorageRepository>();
+            services.AddScoped<IBatchRepository, BatchRepository>();
             services.AddScoped<StorageService>();
 
 

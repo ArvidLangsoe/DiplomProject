@@ -1,4 +1,5 @@
 ﻿using Core.Persistence;
+using Microsoft.EntityFrameworkCore;
 using ProductCatalog;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace Persistence.Repositories
 
         public ICatalog<Product> GetCatalog()
         {
-            var query = _dbContext.Products.AsQueryable().Where(x => !x.Deleted).OrderBy(x => x.Title);
+            var query = _dbContext.Products.AsNoTracking().AsQueryable().Where(x => !x.Deleted).OrderBy(x => x.Title);
             return new Catalog<Product>(query);
         }
 

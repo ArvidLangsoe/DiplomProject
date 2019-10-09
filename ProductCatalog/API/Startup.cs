@@ -44,6 +44,8 @@ namespace API
             services.AddScoped<UpdateProductCommand>();
             services.AddScoped<DeleteProductCommand>();
 
+            services.AddScoped<QueryEvents>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Application.Storage.DTO
 {
-    public class ProductAvailabiltyDTO
+    public class ProductAvailabilityDTO
     {
         public Guid ProductId { get; set; }
 

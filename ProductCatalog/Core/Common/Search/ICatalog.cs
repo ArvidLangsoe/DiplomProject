@@ -13,6 +13,7 @@ namespace Core.Persistence
         CatalogPage<T> GetFront(int amount);
         CatalogPage<T> GetFront(SearchParameters searchParameters);
         CatalogPage<T> GetFront(int amount, SearchParameters searchParameters);
+        CatalogPage<T> GetSpecific(List<Guid> productIds);
 
         CatalogPage<T> GetNext(int amount, object keyNext);
 

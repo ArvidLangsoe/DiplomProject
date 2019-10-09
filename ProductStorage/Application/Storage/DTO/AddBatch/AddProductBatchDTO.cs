@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Domain
+namespace Application.Storage.DTO.AddBatch
 {
-    public class Reservation
+    public class AddProductBatchDTO
     {
-        public Guid Id { get; set; }
-
         public Guid ProductId { get; set; }
-
         public int Amount { get; set; }
 
     }

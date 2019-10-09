@@ -11,6 +11,6 @@ namespace Core.Persistence
 
         void AddEvent(Event eventInstance);
 
-        void GetEvents(Expression<Func<Event, bool>> condition);
+        IEnumerable<Event> GetEvents(Expression<Func<Event, bool>> condition);
     }
 }
