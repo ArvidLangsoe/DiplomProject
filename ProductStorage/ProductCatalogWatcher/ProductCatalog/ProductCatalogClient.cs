@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Domain;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using ProductCatalog.ProductCatalogClient;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -28,16 +30,23 @@ namespace ProductCatalogWatcher
         }
 
 
-        public async Task GetEvents()
+        public async Task<List<EventDTO>> GetEvents(int eventCounter, int amount)
         {
-            var path = Uri + "/api/event?eventCounter=0&amount=10";
+            var path = Uri + "/api/event?eventCounter="+eventCounter+"&amount="+ amount;
             HttpResponseMessage response = await _client.GetAsync(path);
             string responseString = await response.Content.ReadAsStringAsync();
-            object obj = JsonConvert.DeserializeObject(responseString);
+            List<EventDTO> events = JsonConvert.DeserializeObject<List<EventDTO>>(responseString);
+            return events;
+        }
 
-
-            //TODO: Deserialize, make a list of ids that changed and remove the ones that were deleted.
-
+        public async Task GetProducts(IEnumerable<Guid> ProductIds)
+        {
+            var path = Uri + "/api/product/Specific";
+            string content = JsonConvert.SerializeObject(ProductIds).ToString();
+            HttpResponseMessage response = await _client.PostAsync(path, new StringContent(content, Encoding.Default, "application/json"));
+            string responseString = await response.Content.ReadAsStringAsync();
+            dynamic obj = JsonConvert.DeserializeObject(responseString);
+            
         }
 
     }
