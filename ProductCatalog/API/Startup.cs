@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Authorization;
 using Commands.AddProducts;
 using Commands.DeleteProduct;
 using Commands.UpdateProducts;
 using Core.Persistence;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -45,6 +48,29 @@ namespace API
             services.AddScoped<DeleteProductCommand>();
 
             services.AddScoped<QueryEvents>();
+            
+
+            string authority = Configuration["Auth0:Domain"];
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = authority;
+                options.Audience = Configuration["Auth0:ApiIdentifier"];
+            });
+
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("read:product", policy => policy.Requirements.Add(new HasScopeRequirement("read:product", authority)));
+                options.AddPolicy("edit:product", policy => policy.Requirements.Add(new HasScopeRequirement("edit:product", authority)));
+            });
+
+            services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -61,7 +87,7 @@ namespace API
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseMvc();
         }
