@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using API.Authorization;
 using Commands.AddProducts;
 using Commands.DeleteProduct;
 using Commands.UpdateProducts;
@@ -19,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using Middleware.Authorization;
 using Persistence;
 using Persistence.Repositories;
 using Queries;

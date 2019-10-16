@@ -2,9 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace API.Authorization
+namespace Middleware.Authorization
 {
     public class HasScopeHandler : AuthorizationHandler<HasScopeRequirement>
     {
