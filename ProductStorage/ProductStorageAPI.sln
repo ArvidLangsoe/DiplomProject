@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "Persistence\Persistence.csproj", "{D9D34F38-CF01-45F8-93D5-9112FBC1E8C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductCatalogWatcher", "ProductCatalogWatcher\ProductCatalogWatcher.csproj", "{B124D914-734C-48DF-9DF2-077B32A8CFBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductCatalogWatcher", "ProductCatalogWatcher\ProductCatalogWatcher.csproj", "{B124D914-734C-48DF-9DF2-077B32A8CFBB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -10,7 +10,7 @@ namespace ProductCatalog.ProductCatalogClient
         public long EventCounter { get; set; }
         public Guid ObjectId { get; set; }
         public string ObjectType { get; set; }
-        public string EventType { get; set; }
+        public string Event { get; set; }
         public DateTime CreationDate { get; set; } = DateTime.Now;
 
 

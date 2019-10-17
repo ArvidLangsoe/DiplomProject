@@ -39,8 +39,8 @@ namespace ProductCatalogWatcher
         private async void Run() {
 
             while (_isListening) {
-
-                //TODO: Get Events update products.
+                
+                //TODO: Get Events update products. 
 
             }
         }

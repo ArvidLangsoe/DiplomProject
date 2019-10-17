@@ -15,6 +15,7 @@ namespace ProductCatalogWatcher
                 new Guid("315b7d9f-c2ea-4da7-42fb-08d7432e95a8")
             };
 
+            a.Authenticate();
             Task.WaitAll(a.GetEvents(0, 10));
             Task.WaitAll(a.GetProducts(guids));
         }

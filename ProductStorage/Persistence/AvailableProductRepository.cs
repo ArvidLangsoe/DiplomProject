@@ -20,7 +20,7 @@ namespace Persistence
 
 
         public void Replace(AvailableProduct product) {
-            var stored = _dbContext.AvailableProducts.FirstOrDefault(x => x.ProductId == product.ProductId);
+            var stored = _dbContext.AvailableProducts.FirstOrDefault(x => x.Id == product.Id);
 
             if (stored == null)
             {
@@ -36,7 +36,7 @@ namespace Persistence
 
         public AvailableProduct Get(Guid id)
         {
-            return _dbContext.AvailableProducts.AsNoTracking().FirstOrDefault(x => x.ProductId == id);
+            return _dbContext.AvailableProducts.AsNoTracking().FirstOrDefault(x => x.Id == id);
         }
 
         
