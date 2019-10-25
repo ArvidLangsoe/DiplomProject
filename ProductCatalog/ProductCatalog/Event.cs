@@ -13,6 +13,7 @@ namespace Domain
         public string ObjectType { get; set; }
         public EventType EventType { get; set; }
         public DateTime CreationDate { get; set; } = DateTime.Now;
+        public Guid TraceId { get; set; }
 
     }
 

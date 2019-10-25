@@ -13,15 +13,18 @@ namespace Queries.Events
         public string Event { get; set; }
         public DateTime CreationDate { get; set; } = DateTime.Now;
 
+        public Guid TraceId { get; set; }
 
-        public static EventDTO From(Event aEvent){
+
+        public static EventDTO From(Event myEvent){
             return new EventDTO()
             {
-                EventCounter = aEvent.EventCounter,
-                ObjectId = aEvent.ObjectId,
-                ObjectType = aEvent.ObjectType,
-                Event = Enum.GetName(typeof(EventType), aEvent.EventType),
-                CreationDate = aEvent.CreationDate
+                EventCounter = myEvent.EventCounter,
+                ObjectId = myEvent.ObjectId,
+                ObjectType = myEvent.ObjectType,
+                Event = Enum.GetName(typeof(EventType), myEvent.EventType),
+                CreationDate = myEvent.CreationDate,
+                TraceId = myEvent.TraceId
             };
 
         }

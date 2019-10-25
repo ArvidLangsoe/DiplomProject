@@ -11,7 +11,7 @@ using ProductCatalog;
 
 namespace Commands.UpdateProducts
 {
-    public class UpdateProductCommand : ICommand
+    public class UpdateProductCommand : Command
     {
         private IProductRepository _productRepository;
         private IEventRepository _eventRepository;
@@ -22,14 +22,9 @@ namespace Commands.UpdateProducts
             _eventRepository = eventRepository;
         }
 
-
-        public bool IsSuccesful { get; set; } = true;
-        public List<Error> Errors { get; set; } = new List<Error>();
         public UpdateProductDTO ProductUpdate { get; set; }
 
-
-
-        public void Execute()
+        public override void Execute()
         {
             Product currentProduct = _productRepository.GetProduct(ProductUpdate.Id);
             if (currentProduct == null)

@@ -8,7 +8,7 @@ using ProductCatalog;
 
 namespace Commands.DeleteProduct
 {
-    public class DeleteProductCommand : ICommand
+    public class DeleteProductCommand : Command
     {
         private IProductRepository _productRepository;
         private IEventRepository _eventRepository;
@@ -18,13 +18,11 @@ namespace Commands.DeleteProduct
             _eventRepository = eventRepository;
         }
 
-        public bool IsSuccesful { get; set; } = true;
-        public List<Error> Errors { get; set; } = new List<Error>();
 
         public Guid ProductId { get; set; }
 
 
-        public void Execute()
+        public override void Execute()
         {
             var product = _productRepository.GetProduct(ProductId);
             product.Deleted = true;

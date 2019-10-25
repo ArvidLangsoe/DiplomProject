@@ -6,11 +6,14 @@ using ProductCatalog;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NLog;
 
 namespace Commands.AddProducts
 {
-    public class AddProductCommand : ICommand
+    public class AddProductCommand : Command
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         private IProductRepository _productRepository;
         private IEventRepository _eventRepository;
 
@@ -20,10 +23,8 @@ namespace Commands.AddProducts
         }
 
         public AddProductDTO ProductDTO { get; set; }
-        public bool IsSuccesful { get; set; } = true;
-        public List<Error> Errors { get; set; }
 
-        public void Execute()
+        public override void Execute()
         {
             Product newProduct = new Product()
             {
@@ -40,10 +41,11 @@ namespace Commands.AddProducts
             catch (Exception) {
                 //TODO: This could use a smarter implementation, we dont want to catch all exceptions.
                 IsSuccesful = false;
+                Logger.Warn("Failed to add product to database. There might be an issue with the database connection. Product: {@Product} ", newProduct);
             }
-
+            
             _eventRepository.AddEvent(newProduct.ConstructEvent(EventType.Added));
-
+            Logger.Info("Product Added: {@Product} ", newProduct);
         }
     }
 }

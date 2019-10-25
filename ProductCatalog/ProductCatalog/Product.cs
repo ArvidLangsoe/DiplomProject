@@ -39,7 +39,9 @@ namespace ProductCatalog
         {
             searchString = searchString.ToLower();
             bool descriptionHasWords = Description.ToLower().Contains(searchString);
-            bool titleHasWords = Title.ToLower().Contains(searchString);
+            string notNullTitle = Title ?? "";
+
+            bool titleHasWords = notNullTitle.ToLower().Contains(searchString);
             return descriptionHasWords || titleHasWords ? 1 : -1;
         }
     }
