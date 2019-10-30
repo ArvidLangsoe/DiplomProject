@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Commands;
 using Commands.AddProducts;
 using Commands.DeleteProduct;
 using Commands.UpdateProducts;
@@ -26,12 +27,13 @@ namespace API.Controllers
 
         [Authorize("edit:product")]
         [HttpPost()]
-        public IActionResult AddProduct([FromBody] AddProductDTO productDTO,[FromServices] AddProductCommand addProductCommand, [FromHeader] string TraceId) {
-
+        public IActionResult AddProduct([FromBody] AddProductDTO productDTO,[FromServices] AddProductCommand addProductCommand) {
+            AddTrace(addProductCommand);
             addProductCommand.ProductDTO = productDTO;
             addProductCommand.Execute();
 
             if (!addProductCommand.IsSuccesful) {
+                Logger.Warn("Product addition failed, productDTO: {@productDTO} ", productDTO);
                 return BadRequest(addProductCommand.Errors);
             }
 
@@ -63,8 +65,9 @@ namespace API.Controllers
         [AllowAnonymous]
         [HttpPost("Specific")]
         public IActionResult QuerySpecificProducts([FromServices] QueryProducts productQuery, [FromBody] List<Guid> ids) {
-            CatalogPage<Product> products = productQuery.Query(ids);
+            Logger.Debug("Specific Product Query: {@Ids} ", ids);
 
+            CatalogPage<Product> products = productQuery.Query(ids);
             if (!productQuery.IsSuccesful)
             {
                 Logger.Warn("Specific product query failed, ids searched: {@ids} ", ids);
@@ -76,6 +79,7 @@ namespace API.Controllers
         [Authorize("edit:product")]
         [HttpPatch("{productId}")]
         public IActionResult PatchProduct([FromRoute] Guid productId, [FromBody] UpdateProductDTO productChanges, [FromServices] UpdateProductCommand updateProductCommand) {
+            AddTrace(updateProductCommand);
             if (productChanges.Id == null)
             {
                 productChanges.Id = productId;
@@ -85,6 +89,7 @@ namespace API.Controllers
 
             if (!updateProductCommand.IsSuccesful)
             {
+                Logger.Warn("Product patch failed, attempted changes: {@productChanges} ", productChanges);
                 return BadRequest(updateProductCommand.Errors);
             }
             return NoContent();
@@ -93,15 +98,22 @@ namespace API.Controllers
         [Authorize("edit:product")]
         [HttpDelete("{productId}")]
         public IActionResult DeleteProduct([FromRoute] Guid productId, [FromServices] DeleteProductCommand deleteProductCommand) {
+            AddTrace(deleteProductCommand);
             deleteProductCommand.ProductId = productId;
             deleteProductCommand.Execute();
             if (!deleteProductCommand.IsSuccesful)
             {
+                Logger.Warn("Product deletion failed, productid: {@productId} ", productId);
                 return BadRequest(deleteProductCommand.Errors);
             }
 
             return NoContent();
 
+        }
+
+        //TODO: Consider making this an extension method to command. 
+        private void AddTrace(Command command) {
+            command.TraceId = Request.Headers["TraceId"];
         }
     }
 }

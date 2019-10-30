@@ -2,6 +2,7 @@
 using Application.Storage.DTO;
 using Application.Storage.DTO.AddBatch;
 using Domain;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace Application
 {
     public class StorageService
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IProductStorageRepository _storageRepository;
         private readonly IBatchRepository _batchRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -39,8 +41,9 @@ namespace Application
         {
             var batch = batchDTO.ToBatch();
             _batchRepository.AddBatch(batch);
+            
             _unitOfWork.CommitChanges();
-
+            Logger.Info("Batch added {@batch}", batch);
         }
 
 

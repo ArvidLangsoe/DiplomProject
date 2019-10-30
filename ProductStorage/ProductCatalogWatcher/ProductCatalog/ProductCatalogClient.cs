@@ -47,14 +47,12 @@ namespace ProductCatalogWatcher
             var clientCredentials = new ClientCredentials();
             var response = await _client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
             {
-                Address = "https://dev-akl.eu.auth0.com/oauth/token/",
-                ClientId = "NHYaSGobpFhgVmDyAuXJfrI7JkwgFyZq",
-                ClientSecret = "cKIAshV8eiyWwtcB4elVXQV6S52is6IiP5zngOtNurvcovQ6s4WbwoV6etm-mOwx",
-                Parameters = {
-                    { "audience", "productcatalog.kappelhoj.com"}
-                }
-
+                Address = config["Auth0:Address"],
+                ClientId = config["Auth0:ClientId"],
+                ClientSecret = config["Auth0:ClientSecret"],
+                Parameters = config.GetSection("Auth0:Parameters").Get<Dictionary<string, string>>(),
             });
+
             if (response.IsError) {
                 throw new ApplicationException("Could not connect to Auth0");
             }

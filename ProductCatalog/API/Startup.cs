@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Middleware;
 using Commands.AddProducts;
 using Commands.DeleteProduct;
 using Commands.UpdateProducts;
@@ -87,6 +88,8 @@ namespace API
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseTraceId();
             app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseMvc();

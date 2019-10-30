@@ -4,12 +4,15 @@ using System.Text;
 using Core.Common;
 using Core.Persistence;
 using Domain;
+using NLog;
 using ProductCatalog;
 
 namespace Commands.DeleteProduct
 {
     public class DeleteProductCommand : Command
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         private IProductRepository _productRepository;
         private IEventRepository _eventRepository;
 
@@ -29,6 +32,8 @@ namespace Commands.DeleteProduct
             product.LastUpdate = DateTime.Now;
             _productRepository.UpdateProduct(product);
             _eventRepository.AddEvent(product.ConstructEvent(EventType.Deleted));
+
+            Logger.Info("Product deleted: {@id}",ProductId);
         }
 
     }

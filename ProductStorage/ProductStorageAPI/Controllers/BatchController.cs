@@ -7,6 +7,7 @@ using Application.Storage.DTO.AddBatch;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NLog;
 
 namespace ProductStorageAPI.Controllers
 {
@@ -15,6 +16,7 @@ namespace ProductStorageAPI.Controllers
     [ApiController]
     public class BatchController : ControllerBase
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private StorageService _storageService;
 
         public BatchController(StorageService storageService)
