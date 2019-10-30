@@ -111,7 +111,7 @@ namespace API.Controllers
 
         }
 
-        //TODO: Consider making this an extension method to command. 
+        //TODO: Consider making this an extension method to command, with reverse method input.
         private void AddTrace(Command command) {
             command.TraceId = Request.Headers["TraceId"];
         }
