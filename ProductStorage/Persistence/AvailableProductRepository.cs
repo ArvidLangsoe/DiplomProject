@@ -33,6 +33,11 @@ namespace Persistence
 
         }
 
+        public void Remove(Guid id)
+        {
+            var product = _dbContext.AvailableProducts.FirstOrDefault( x => x.Id == id);
+            _dbContext.Remove(product);
+        }
 
         public AvailableProduct Get(Guid id)
         {

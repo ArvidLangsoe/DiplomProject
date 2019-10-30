@@ -3,7 +3,6 @@ using IdentityModel.Client;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using ProductCatalog.ProductCatalogClient;
-using ProductCatalogWatcher.ProductCatalog;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -38,13 +37,12 @@ namespace ProductCatalogWatcher
 
         }
 
-        public async void  Authenticate() {
+        public async Task  Authenticate() {
             await RetrieveAuthToken();
         }
 
         private async Task RetrieveAuthToken()
         {
-            var clientCredentials = new ClientCredentials();
             var response = await _client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
             {
                 Address = config["Auth0:Address"],
