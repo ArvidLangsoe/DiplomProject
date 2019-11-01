@@ -3,11 +3,13 @@ using IdentityModel.Client;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using ProductCatalog.ProductCatalogClient;
+using ProductCatalogWatcher.ProductCatalog;
 using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -17,23 +19,19 @@ namespace ProductCatalogWatcher
 {
     public class ProductCatalogClient
     {
+
         private HttpClient _client = new HttpClient();
         private string Uri;
-        private IConfiguration config;
+        private IConfiguration _config;
 
         private string AccessToken;
 
 
-        public ProductCatalogClient()
+        public ProductCatalogClient(IConfiguration config)
         {
-            //Config help: https://garywoodfine.com/configuration-api-net-core-console-application/
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", false, true);
-            config = builder
-                .Build();
+            _config = config;
 
-            Uri = config["Uri:ProductCatalog"];
+            Uri = _config["Uri:ProductCatalog"];
 
         }
 
@@ -45,10 +43,10 @@ namespace ProductCatalogWatcher
         {
             var response = await _client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
             {
-                Address = config["Auth0:Address"],
-                ClientId = config["Auth0:ClientId"],
-                ClientSecret = config["Auth0:ClientSecret"],
-                Parameters = config.GetSection("Auth0:Parameters").Get<Dictionary<string, string>>(),
+                Address = _config["Auth0:Address"],
+                ClientId = _config["Auth0:ClientId"],
+                ClientSecret = _config["Auth0:ClientSecret"],
+                Parameters = _config.GetSection("Auth0:Parameters").Get<Dictionary<string, string>>(),
             });
 
             if (response.IsError) {
@@ -60,9 +58,9 @@ namespace ProductCatalogWatcher
 
         public async Task<List<EventDTO>> GetEvents(int eventCounter, int amount)
         {
-
             var path = Uri + "/api/event?eventCounter=" + eventCounter + "&amount=" + amount;
             HttpResponseMessage response = await _client.GetAsync(path);
+            HasAccess(response);
             string responseString = await response.Content.ReadAsStringAsync();
             List<EventDTO> events = JsonConvert.DeserializeObject<List<EventDTO>>(responseString);
             return events;
@@ -73,6 +71,7 @@ namespace ProductCatalogWatcher
             var path = Uri + "/api/product/Specific";
             string reqBody = JsonConvert.SerializeObject(ProductIds).ToString();
             HttpResponseMessage response = await _client.PostAsync(path, new StringContent(reqBody, Encoding.Default, "application/json"));
+            HasAccess(response);
             string resContentString = await response.Content.ReadAsStringAsync();
             dynamic resContent = JsonConvert.DeserializeObject(resContentString);
 
@@ -82,7 +81,14 @@ namespace ProductCatalogWatcher
             return products;
         }
 
+        private bool HasAccess(HttpResponseMessage response) {
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new AccessDeniedException("Acces to the service was denied.");
+            }
 
+            return true;
+        } 
 
     }
 

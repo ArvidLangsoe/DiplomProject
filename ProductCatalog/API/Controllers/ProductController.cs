@@ -77,13 +77,9 @@ namespace API.Controllers
         }
 
         [Authorize("edit:product")]
-        [HttpPatch("{productId}")]
+        [HttpPatch("")]
         public IActionResult PatchProduct([FromRoute] Guid productId, [FromBody] UpdateProductDTO productChanges, [FromServices] UpdateProductCommand updateProductCommand) {
             AddTrace(updateProductCommand);
-            if (productChanges.Id == null)
-            {
-                productChanges.Id = productId;
-            }
             updateProductCommand.ProductUpdate = productChanges;
             updateProductCommand.Execute();
 

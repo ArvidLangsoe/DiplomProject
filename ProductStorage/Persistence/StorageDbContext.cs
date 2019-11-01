@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Domain.Events;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ namespace Persistence
         public DbSet<ProductRemoval> RemovalEvents { get; set; }
 
         public DbSet<AvailableProduct> AvailableProducts { get; set; }
+        public DbSet<EventCounter> EventCounter { get; set; }
 
 
     }
