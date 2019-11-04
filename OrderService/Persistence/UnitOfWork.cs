@@ -10,7 +10,7 @@ namespace Persistence
     {
         private OrderDbContext _context;
 
-        UnitOfWork(OrderDbContext context) {
+        public UnitOfWork(OrderDbContext context) {
             _context = context;
 
         }

@@ -1,7 +1,9 @@
 ﻿using Application.Interfaces.Persistence;
 using Domain;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Persistence
@@ -9,7 +11,7 @@ namespace Persistence
     public class OrderRepository : IOrderRepository
     {
         private OrderDbContext _context;
-        OrderRepository(OrderDbContext context)
+        public OrderRepository(OrderDbContext context)
         {
             _context = context;
 
@@ -17,7 +19,12 @@ namespace Persistence
 
         public void AddOrder(Order order)
         {
-            
+            _context.Add(order);
+        }
+
+        public IEnumerable<Order> GetAllOrders()
+        {
+            return _context.Orders.Include(x => x.ProductOrders).ToList();
         }
     }
 }

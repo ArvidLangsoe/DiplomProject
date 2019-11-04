@@ -7,7 +7,6 @@ namespace Application.Commands.PlaceOrder
     public class PlaceOrderDTO
     {
         public List<Entry> ProductOrders { get; set; }
-
     }
 
 
